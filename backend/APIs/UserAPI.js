@@ -105,7 +105,7 @@ userRoute.put("/articles", verifyToken("USER"), async (req, res) => {
 
 userRoute.get(
   "/article/:id",
-  verifyToken("USER"),
+  verifyToken(),
   async (req, res) => {
 
     try {
