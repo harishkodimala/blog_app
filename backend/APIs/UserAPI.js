@@ -103,5 +103,40 @@ userRoute.put("/articles", verifyToken("USER"), async (req, res) => {
 });
 
 
+userRoute.get(
+  "/article/:id",
+  verifyToken("USER"),
+  async (req, res) => {
+
+    try {
+
+      const article = await ArticleModel.findById(req.params.id)
+        .populate("author", "-password")
+        .populate("comments.user", "firstName lastName email");
+
+      if (!article || !article.isArticleActive) {
+
+        return res.status(404).json({
+          message: "Article not found"
+        });
+
+      }
+
+      res.status(200).json({
+        message: "Article fetched successfully",
+        payload: article
+      });
+
+    } catch (error) {
+
+      res.status(500).json({
+        message: "Server error",
+        error: error.message
+      });
+
+    }
+  }
+);
+
 //next() ---> next middleware
 //next(err) ---> error handling middleware
