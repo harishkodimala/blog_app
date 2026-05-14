@@ -33,9 +33,16 @@ function Register() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
   const [preview, setPreview] = useState(null)
+  
 
   const onRegister = async (newUser) => {
     const formData = new FormData();
+    console.log("profileImageUrl:", profileImageUrl);
+console.log("formData entries:");
+
+for (let pair of formData.entries()) {
+  console.log(pair[0], pair[1]);
+}
     let { role, profileImageUrl, ...userObj } = newUser;
     Object.keys(userObj).forEach((key) => {
       formData.append(key, userObj[key]);
