@@ -114,21 +114,33 @@ function Register() {
             <label className={labelClass}>PROFILE PICTURE</label>
             <div className="flex items-center gap-4">
               <label className="flex-1">
-                <input
-                  type="file"
-                  className="hidden"
-                  accept="image/png, image/jpeg"
-                  {...register("profileImageUrl")}
-                  onChange={(e) => {
-                    const file = e.target.files[0];
-                    if (file) {
-                      if (!["image/jpeg", "image/png"].includes(file.type)) { setError("Only JPG or PNG allowed"); return; }
-                      if (file.size > 2 * 1024 * 1024) { setError("File size must be less than 2MB"); return; }
-                      setPreview(URL.createObjectURL(file));
-                      setError(null);
-                    }
-                  }}
-                />
+                <input type="file"
+  className="hidden"
+  accept="image/png, image/jpeg"
+  {...register("profileImageUrl", {
+    onChange: (e) => {
+
+      const file = e.target.files[0];
+
+      if (file) {
+
+        if (!["image/jpeg", "image/png"].includes(file.type)) {
+          setError("Only JPG or PNG allowed");
+          return;
+        }
+
+        if (file.size > 2 * 1024 * 1024) {
+          setError("File size must be less than 2MB");
+          return;
+        }
+
+        setPreview(URL.createObjectURL(file));
+        setError(null);
+
+      }
+    }
+  })}
+/>
                 <div className="w-full text-center py-2 border-2 border-dashed border-[#d2d2d7] rounded-xl text-xs text-[#6e6e73] hover:border-[#0066cc] hover:text-[#0066cc] cursor-pointer transition-all">
                   {preview ? 'Change Photo' : 'Upload Photo'}
                 </div>
