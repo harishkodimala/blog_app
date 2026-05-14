@@ -17,15 +17,16 @@ import Unauthorized from './components/Unauthorized'
 import ArticleDetail from "./components/ArticleDetail";
 import { useEffect } from 'react'
 import { useAuth } from './store/authStore'
-const checkAuth = useAuth(state => state.checkAuth);
+
+
+
+function App() {
+  const checkAuth = useAuth(state => state.checkAuth);
 
 useEffect(() => {
   checkAuth();
 }, []);
 
-
-
-function App() {
   const routerObj = createBrowserRouter([
     {
       path: "/",
