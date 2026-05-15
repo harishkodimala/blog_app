@@ -149,46 +149,50 @@ const refreshArticle = async () => {
   }
 };
 
+const addComment = async (e) => {
+  e.preventDefault();
 
-  const addComment = async (e) => {
-    e.preventDefault();
-
-    if (!comment.trim()) {
-      toast.error("Comment cannot be empty");
-      return;
-    }
-
-    setCommentLoading(true);
-
-    try {
-
-      await axios.put(
-  `${API_BASE}/user-api/articles`,
-  {
-    articleId: id,
-    comment: comment.trim(),
-  },
-  {
-    withCredentials: true,
+  if (!comment.trim()) {
+    toast.error("Comment cannot be empty");
+    return;
   }
-);
 
-      toast.success("Comment added successfully");
-      
+  setCommentLoading(true);
 
-      setComment("");
-      navigate("/article/" + id, { replace: true });
-      await refreshArticle();
-    } catch (err) {
-      toast.error(
-        err.response?.data?.message ||
-          err.message ||
-          "Failed to add comment"
-      );
-    } finally {
-      setCommentLoading(false);
-    }
-  };
+  try {
+
+    await axios.put(
+      `${API_BASE}/user-api/articles`,
+      {
+        articleId: id,
+        comment: comment.trim(),
+      },
+      {
+        withCredentials: true,
+      }
+    );
+
+    toast.success("Comment added successfully");
+
+    setComment("");
+
+    await refreshArticle();
+
+  } catch (err) {
+
+    toast.error(
+      err.response?.data?.message ||
+      err.message ||
+      "Failed to add comment"
+    );
+
+  } finally {
+
+    setCommentLoading(false);
+
+  }
+};
+
 
   if (loading) {
     return <p className={loadingClass}>Loading article...</p>;
