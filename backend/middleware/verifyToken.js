@@ -1,50 +1,54 @@
+
 import jwt from "jsonwebtoken";
-import { config } from "dotenv";
 
-config();
+export const verifyToken = (role) => {
 
-export const verifyToken = (...allowedRoles) => {
-  return async (req, res, next) => {
+  return (req, res, next) => {
 
     try {
-      
 
-      // read token from cookies
-      let token = req.cookies.token;
+      const token = req.cookies.token;
+
       console.log("token:", token);
-      console.log(req.cookies);
 
       if (!token) {
-        return res.status(401).json({ message: "Unauthorized request. Please login." });
+        return res.status(401).json({
+          message: "Unauthorized"
+        });
       }
 
-      // verify token
-      let decodedToken = jwt.verify(token, process.env.JWT_SECRETKEY);
-      console.log("Decoded token", decodedToken.role)
-      // check role authorization
-      if (!allowedRoles.includes(decodedToken.role)) {
-        return res.status(403).json({ message: "Forbidden. You dont have access." });
-      }
-      
-      decodedToken._id=decodedToken.userId;
-      console.log("Decoded token",decodedToken)
-      
-      req.user = decodedToken;
+      const decoded = jwt.verify(
+        token,
+        process.env.SECRET_KEY
+      );
 
+      console.log("Decoded token", decoded);
+
+      req.user = decoded;
+
+      // IMPORTANT FIX
+      // only validate role if role exists
+      if (
+        role &&
+        decoded.role?.toUpperCase() !== role.toUpperCase()
+      ) {
+
+        return res.status(403).json({
+          message: "Forbidden. You dont have access."
+        });
+
+      }
 
       next();
 
-    } catch (error) {
-      if(error.name==="TokenExpiredError")
-      {
-        return res.status(401).json({message:"Session expired,Plz Login again"})
-      }
-      if(error.name==="JsonWebTokenError")
-      {
-        return res.status(401).json({message:"Invalid token,Plz login again"})
-      }
-      // next(error);
-    }
+    } catch (err) {
 
+      console.log(err);
+
+      return res.status(401).json({
+        message: "Invalid token"
+      });
+
+    }
   };
 };
