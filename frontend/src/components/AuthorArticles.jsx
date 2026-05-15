@@ -115,7 +115,7 @@ const openArticle = async (article) => {
 
          <button
   className={`${ghostBtn} mt-auto pt-4 text-left`}
-  onClick={() => navigate(`/article/${article._id}`)}
+  onClick={() => navigate(`/article-detail/${article._id}`)}
 >
   Read Article →
 </button>
