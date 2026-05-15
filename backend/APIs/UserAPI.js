@@ -24,6 +24,8 @@ userRoute.post(
                 //  Step 1: upload image to cloudinary from memoryStorage (if exists)
                 if (req.file) {
                 cloudinaryResult = await uploadToCloudinary(req.file.buffer);
+                 console.log("Cloudinary Result:", cloudinaryResult);
+
                 }
 
                 // Step 2: call existing register()
