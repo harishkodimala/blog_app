@@ -19,7 +19,7 @@ export const verifyToken = (role) => {
 
       const decoded = jwt.verify(
         token,
-        process.env.SECRET_KEY
+        process.env.JWT_SECRETKEY
       );
 
       console.log("Decoded token", decoded);
