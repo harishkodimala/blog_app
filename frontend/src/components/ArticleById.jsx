@@ -31,8 +31,12 @@ function ArticleByID() {
   const { id } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
+  
 
   const user = useAuth((state) => state.currentUser);
+  user?.role === "AUTHOR"
+    ? `${API_BASE}/author-api/article/${id}`
+    : `${API_BASE}/user-api/article/${id}`;
 
   const [article, setArticle] = useState(location.state || null);
   const [loading, setLoading] = useState(false);
@@ -50,7 +54,7 @@ function ArticleByID() {
     const getArticle = async () => {
       setLoading(true);
       try {
-        const res = await axios.get(`${API_BASE}/user-api/article/${id}`, { withCredentials: true });
+        const res = await axios.get(endpoint, { withCredentials: true });
         setArticle(res.data.payload);
       } catch (err) {
         setError(err.response?.data?.error || "Failed to load article");
