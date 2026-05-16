@@ -300,7 +300,7 @@ const addComment = async (e) => {
                     <div className="text-[11px] text-[#6e6e73]">
                       <span className="font-bold text-[#1d1d1f]">
                         {item.user?.firstName}{" "}
-                        {item.user?.lastName}
+                        {item.user?.lastName} || "Unknown User"
                       </span>
 
                       <span className="mx-2 opacity-50">
@@ -314,7 +314,7 @@ const addComment = async (e) => {
               ))}
             </div>
           ) : (
-            <p className={emptyStateClass + " !py-4"}>
+            <p className={emptyStateClass + " py-4!"}>
               No insights shared yet. Be the first.
             </p>
           )}
@@ -332,14 +332,14 @@ const addComment = async (e) => {
                 }
                 placeholder="Share your perspective..."
                 className={
-                  inputClass + " !rounded-2xl resize-none"
+                  inputClass + " rounded-2xl! resize-none"
                 }
               />
 
               <button
                 type="submit"
                 disabled={commentLoading}
-                className={primaryBtn + " !px-8 !py-3"}
+                className={primaryBtn + " px-8! py-3!"}
               >
                 {commentLoading
                   ? "Publishing..."
