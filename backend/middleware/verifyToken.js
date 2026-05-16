@@ -1,7 +1,7 @@
 
 import jwt from "jsonwebtoken";
 
-export const verifyToken = (role) => {
+export const verifyToken = (...role) => {
 
   return (req, res, next) => {
 
@@ -29,8 +29,8 @@ export const verifyToken = (role) => {
       // IMPORTANT FIX
       // only validate role if role exists
       if (
-        role &&
-        decoded.role?.toUpperCase() !== role.toUpperCase()
+        role.length > 0 &&
+        !role.some(r => r === decoded.role?.toUpperCase())
       ) {
 
         return res.status(403).json({
