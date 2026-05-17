@@ -97,7 +97,7 @@ authorRoute.get(
   }
 );
 //Read artiles of author(protected route)
-authorRoute.get("/articles/:authorId",verifyToken("AUTHOR") ,checkAuthor, async (req, res) => {
+authorRoute.get("/articles/:id",verifyToken("AUTHOR") ,checkAuthor, async (req, res) => {
   //get author id
   let aid = req.params.authorId;
 
