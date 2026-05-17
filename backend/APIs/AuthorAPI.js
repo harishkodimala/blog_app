@@ -74,7 +74,7 @@ authorRoute.get(
       const { articleId } = req.params;
 
       const article = await ArticleModel.findById(articleId)
-        .populate("author", "firstName email role");
+        .populate("author", "firstName email role").populate("comments.user", "firstName email");
 
       if (!article) {
         return res.status(404).json({
