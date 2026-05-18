@@ -150,18 +150,6 @@ JWT_SECRET=your_secret_key
 
 ---
 
-# 📷 Screenshots
-
-## Homepage
-Add homepage screenshot here
-
-## Dashboard
-Add dashboard screenshot here
-
-## Article Page
-Add article page screenshot here
-
----
 
 # 🚀 Future Improvements
 
