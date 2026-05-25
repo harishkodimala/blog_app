@@ -4,7 +4,7 @@ Backend API for the MERN Blog Application built using Node.js, Express.js, and M
 
 ---
 
-# 🚀 Features
+#  Features
 
 - REST API
 - JWT Authentication
@@ -16,7 +16,7 @@ Backend API for the MERN Blog Application built using Node.js, Express.js, and M
 
 ---
 
-# 🛠 Tech Stack
+#  Tech Stack
 
 - Node.js
 - Express.js
@@ -27,7 +27,7 @@ Backend API for the MERN Blog Application built using Node.js, Express.js, and M
 
 ---
 
-# 📂 Folder Structure
+#  Folder Structure
 
 ```txt
 backend/
@@ -42,7 +42,7 @@ backend/
 
 ---
 
-# ⚡ Installation
+# Installation
 
 ```bash
 npm install
@@ -50,7 +50,7 @@ npm install
 
 ---
 
-# ▶ Run Backend Server
+#  Run Backend Server
 
 ## Development
 
@@ -72,7 +72,7 @@ http://localhost:5000
 
 ---
 
-# 🔐 Environment Variables
+#  Environment Variables
 
 Create `.env` file:
 
@@ -84,7 +84,7 @@ JWT_SECRET=your_secret_key
 
 ---
 
-# 📡 API Endpoints
+#  API Endpoints
 
 # Authentication
 
@@ -106,7 +106,7 @@ JWT_SECRET=your_secret_key
 
 ---
 
-# 🔒 Authentication
+#  Authentication
 
 JWT Token based authentication is used.
 
@@ -118,7 +118,7 @@ Authorization: Bearer <token>
 
 ---
 
-# 🧪 Testing API
+#  Testing API
 
 Recommended Tools:
 - Postman
@@ -126,7 +126,7 @@ Recommended Tools:
 
 ---
 
-# 🚀 Deployment
+#  Deployment
 
 Recommended Platforms:
 - Render
@@ -135,7 +135,7 @@ Recommended Platforms:
 
 ---
 
-# ⚠ Important Notes
+# Important Notes
 
 - Keep `.env` file private
 - Never push secrets to GitHub
@@ -143,6 +143,6 @@ Recommended Platforms:
 
 ---
 
-# 👨‍💻 Developer
+#  Developer
 
 Harish Kodimala
