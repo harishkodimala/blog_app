@@ -4,23 +4,23 @@ A full-stack MERN Blog Application where users can create, manage, and explore a
 
 ---
 
-## 🚀 Live Demo
+## Live Demo
 
 Frontend: https://your-frontend-url.vercel.app  
 Backend: https://your-backend-url.onrender.com
 
 ---
 
-# 📌 Features
+#  Features
 
-## 👤 Authentication
+## Authentication
 - User Registration
 - User Login
 - JWT Authentication
 - Protected Routes
 - Role-based Access
 
-## 📝 Blog Features
+##  Blog Features
 - Create Articles
 - Edit Articles
 - Delete Articles
@@ -28,14 +28,14 @@ Backend: https://your-backend-url.onrender.com
 - View Single Article
 - Author Dashboard
 
-## 🎨 Frontend Features
+##  Frontend Features
 - Responsive UI
 - Modern Design
 - Loading States
 - Error Handling
 - Dynamic Routing
 
-## ⚙ Backend Features
+## Backend Features
 - REST API
 - MongoDB Database
 - JWT Security
@@ -44,7 +44,7 @@ Backend: https://your-backend-url.onrender.com
 
 ---
 
-# 🛠 Tech Stack
+#  Tech Stack
 
 ## Frontend
 - React.js
@@ -62,7 +62,7 @@ Backend: https://your-backend-url.onrender.com
 
 ---
 
-# 📂 Project Structure
+# Project Structure
 
 ```txt
 blog_app/
@@ -76,9 +76,9 @@ blog_app/
 
 ---
 
-# ⚡ Installation
+#  Installation
 
-## 1️⃣ Clone Repository
+## 1️ Clone Repository
 
 ```bash
 git clone https://github.com/harishkodimala/blog_app.git
@@ -86,7 +86,7 @@ git clone https://github.com/harishkodimala/blog_app.git
 
 ---
 
-# 🔧 Backend Setup
+#  Backend Setup
 
 ```bash
 cd backend
@@ -102,7 +102,7 @@ http://localhost:5000
 
 ---
 
-# 💻 Frontend Setup
+#  Frontend Setup
 
 ```bash
 cd frontend
@@ -118,7 +118,7 @@ http://localhost:5173
 
 ---
 
-# 🔐 Environment Variables
+#  Environment Variables
 
 ## Backend `.env`
 
@@ -130,7 +130,7 @@ JWT_SECRET=your_secret_key
 
 ---
 
-# 📡 API Endpoints
+#  API Endpoints
 
 ## Auth Routes
 
@@ -151,7 +151,7 @@ JWT_SECRET=your_secret_key
 ---
 
 
-# 🚀 Future Improvements
+#  Future Improvements
 
 - Rich Text Editor
 - Dark Mode
@@ -165,7 +165,7 @@ JWT_SECRET=your_secret_key
 
 ---
 
-# 🧪 Run Tests
+#  Run Tests
 
 ```bash
 npm test
@@ -173,7 +173,7 @@ npm test
 
 ---
 
-# 🤝 Contributing
+#  Contributing
 
 Contributions are welcome.
 
@@ -185,7 +185,7 @@ Contributions are welcome.
 
 ---
 
-# 📜 License
+# License
 
 This project is licensed under the MIT License.
 
