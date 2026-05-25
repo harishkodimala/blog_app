@@ -4,7 +4,7 @@ Frontend for the MERN Blog Application built using React.js.
 
 ---
 
-# 🚀 Features
+#  Features
 
 - Responsive UI
 - User Authentication
@@ -16,7 +16,7 @@ Frontend for the MERN Blog Application built using React.js.
 
 ---
 
-# 🛠 Tech Stack
+#  Tech Stack
 
 - React.js
 - React Router DOM
@@ -25,7 +25,7 @@ Frontend for the MERN Blog Application built using React.js.
 
 ---
 
-# 📂 Folder Structure
+#  Folder Structure
 
 ```txt
 src/
@@ -40,7 +40,7 @@ src/
 
 ---
 
-# ⚡ Installation
+#  Installation
 
 ```bash
 npm install
@@ -48,7 +48,7 @@ npm install
 
 ---
 
-# ▶ Run Development Server
+#  Run Development Server
 
 ```bash
 npm run dev
@@ -62,7 +62,7 @@ http://localhost:5173
 
 ---
 
-# 🔗 Backend Connection
+#  Backend Connection
 
 Update API base URL inside:
 
@@ -78,7 +78,7 @@ export const BASE_URL = "http://localhost:5000";
 
 ---
 
-# 📱 Responsive Design
+#  Responsive Design
 
 The application supports:
 - Desktop
@@ -87,7 +87,7 @@ The application supports:
 
 ---
 
-# 🚀 Build for Production
+#  Build for Production
 
 ```bash
 npm run build
@@ -95,7 +95,7 @@ npm run build
 
 ---
 
-# 📦 Deployment
+#  Deployment
 
 Recommended Platforms:
 - Vercel
@@ -104,6 +104,6 @@ Recommended Platforms:
 ---
 
 
-# 👨‍💻 Developer
+#  Developer
 
 Harish Kodimala
