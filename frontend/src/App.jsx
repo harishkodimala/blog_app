@@ -14,7 +14,6 @@ import ArticleById from './components/ArticleById'
 import AddArticle from './components/AddArticle'
 import EditArticle from './components/EditArticle'
 import Unauthorized from './components/Unauthorized'
-import ArticleDetail from "./components/ArticleDetail";
 import { useEffect } from 'react'
 import { useAuth } from './store/authStore'
 
