@@ -21,6 +21,16 @@ app.use(cors({
 app.use(exp.json());
 //add cookie parser middleware
 app.use(cookieParser())
+app.use((req, res, next) => {
+
+  res.setHeader(
+    "Cross-Origin-Opener-Policy",
+    "same-origin-allow-popups"
+  );
+
+  next();
+});
+
 //connect APIs
 app.use("/user-api", userRoute);
 app.use("/author-api", authorRoute);
