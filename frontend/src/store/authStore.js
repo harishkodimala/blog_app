@@ -55,7 +55,7 @@ export let useAuth = create((set) => ({
         }catch(err){
             set({
                 loading: false,
-                error: err,
+                error: null,
                 isAuthenticated: false,
                 currentUser: null
             })
