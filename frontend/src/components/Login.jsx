@@ -1,7 +1,11 @@
 import React from 'react'
+
 import { useForm } from 'react-hook-form'
+
 import { useNavigate } from 'react-router-dom'
+
 import { useAuth } from '../store/authStore'
+
 import { useEffect } from 'react'
 
 import {
@@ -37,10 +41,7 @@ function Login() {
     },
   })
 
-  // =========================
   // Zustand Store
-  // =========================
-
   const login = useAuth(state => state.login)
 
   const currentUser = useAuth(state => state.currentUser)
@@ -55,17 +56,26 @@ function Login() {
 
   const redirectUser = (role) => {
 
-    if (role === 'USER') {
+    if (!role) return
 
-      navigate('/userdashboard')
+    const normalizedRole = role.toUpperCase()
 
-    } else if (role === 'AUTHOR') {
+    switch (normalizedRole) {
 
-      navigate('/authordashboard')
+      case 'USER':
+        navigate('/userdashboard')
+        break
 
-    } else if (role === 'ADMIN') {
+      case 'AUTHOR':
+        navigate('/authordashboard')
+        break
 
-      navigate('/admindashboard')
+      case 'ADMIN':
+        navigate('/admindashboard')
+        break
+
+      default:
+        navigate('/')
     }
   }
 
@@ -130,7 +140,9 @@ function Login() {
         }
       )
 
-      console.log(res.data)
+      console.log("GOOGLE RESPONSE:", res.data)
+
+      console.log("ROLE:", res.data.payload?.role)
 
       // Zustand Update
       useAuth.setState({
@@ -139,12 +151,14 @@ function Login() {
 
         isAuthenticated: true,
 
+        loading: false,
+
         error: null,
       })
 
       toast.success('Google Login Successful!')
 
-      redirectUser(res.data.payload.role)
+      redirectUser(res.data.payload?.role)
 
     } catch (err) {
 
