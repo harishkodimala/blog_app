@@ -151,8 +151,6 @@ function Login() {
         }
       )
 
-      console.log("GOOGLE RESPONSE:", res.data)
-
       // =====================================
       // EXISTING USER
       // =====================================
@@ -222,7 +220,7 @@ function Login() {
         }
       )
 
-      console.log("REGISTER RESPONSE:", res.data)
+      // console.log("REGISTER RESPONSE:", res.data)
 
       // Zustand Update
       useAuth.setState({
