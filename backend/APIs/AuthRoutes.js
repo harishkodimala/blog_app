@@ -2,7 +2,7 @@ import express from 'express';
 import jwt from 'jsonwebtoken';
 import { OAuth2Client } from 'google-auth-library';
 
-import { UserTypeModel } from '../models/User.js';
+import { UserTypeModel } from '../models/userModel.js';
 
 const authRouter = express.Router();
 
