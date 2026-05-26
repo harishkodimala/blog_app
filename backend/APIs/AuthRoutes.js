@@ -10,7 +10,10 @@ const client = new OAuth2Client(
   process.env.GOOGLE_CLIENT_ID
 );
 
+// ======================================
 // GOOGLE LOGIN
+// ======================================
+
 authRouter.post('/google', async (req, res) => {
 
   try {
@@ -25,7 +28,7 @@ authRouter.post('/google', async (req, res) => {
       audience: process.env.GOOGLE_CLIENT_ID,
     });
 
-    // Get User Data
+    // Google User Data
     const payload = ticket.getPayload();
 
     const {
@@ -39,10 +42,92 @@ authRouter.post('/google', async (req, res) => {
     // Check Existing User
     let user = await UserTypeModel.findOne({ email });
 
-    // Create User If Not Exists
-    if (!user) {
+    // ======================================
+    // EXISTING USER LOGIN
+    // ======================================
 
-      user = await UserTypeModel.create({
+    if (user) {
+
+      // Fix old users without role
+      if (!user.role) {
+
+        user.role = "USER";
+
+        await user.save();
+      }
+
+      // JWT
+      const token = jwt.sign(
+
+        {
+          userId: user._id,
+
+          firstName: user.firstName,
+
+          lastName: user.lastName,
+
+          profileImageUrl: user.profileImageUrl,
+
+          email: user.email,
+
+          role: user.role,
+        },
+
+        process.env.JWT_SECRETKEY,
+
+        {
+          expiresIn: '7d',
+        }
+      );
+
+      // Cookie Response
+      return res
+
+        .cookie('token', token, {
+
+          httpOnly: true,
+
+          secure: true,
+
+          sameSite: 'None',
+
+          maxAge: 7 * 24 * 60 * 60 * 1000,
+        })
+
+        .status(200)
+
+        .json({
+
+          message: 'Google Login Successful',
+
+          isNewUser: false,
+
+          payload: {
+
+            firstName: user.firstName,
+
+            lastName: user.lastName,
+
+            email: user.email,
+
+            profileImageUrl: user.profileImageUrl,
+
+            role: user.role,
+          }
+        });
+    }
+
+    // ======================================
+    // NEW USER
+    // ======================================
+
+    return res.status(200).json({
+
+      message: 'New Google User',
+
+      isNewUser: true,
+
+      googleData: {
 
         firstName: given_name,
 
@@ -53,22 +138,69 @@ authRouter.post('/google', async (req, res) => {
         profileImageUrl: picture,
 
         googleId: sub,
+      }
+    });
 
-        provider: "GOOGLE",
+  } catch (err) {
 
-        role: "USER",
-      });
-    }
+    console.log(err);
 
-    // JWT Token
+    res.status(500).json({
+
+      message: err.message,
+    });
+  }
+});
+
+// ======================================
+// GOOGLE REGISTER
+// ======================================
+
+authRouter.post('/google/register', async (req, res) => {
+
+  try {
+
+    const {
+      firstName,
+      lastName,
+      email,
+      profileImageUrl,
+      googleId,
+      role,
+    } = req.body;
+
+    // Create User
+    const user = await UserTypeModel.create({
+
+      firstName,
+
+      lastName,
+
+      email,
+
+      profileImageUrl,
+
+      googleId,
+
+      provider: "GOOGLE",
+
+      role,
+    });
+
+    // JWT
     const token = jwt.sign(
 
       {
         userId: user._id,
+
         firstName: user.firstName,
+
         lastName: user.lastName,
+
         profileImageUrl: user.profileImageUrl,
+
         email: user.email,
+
         role: user.role,
       },
 
@@ -79,8 +211,9 @@ authRouter.post('/google', async (req, res) => {
       }
     );
 
-    // COOKIE AUTH
+    // Cookie Response
     res
+
       .cookie('token', token, {
 
         httpOnly: true,
@@ -92,18 +225,22 @@ authRouter.post('/google', async (req, res) => {
         maxAge: 7 * 24 * 60 * 60 * 1000,
       })
 
-      .status(200)
+      .status(201)
 
       .json({
 
-        message: 'Google Login Successful',
+        message: 'Google Registration Successful',
 
-        payload:user && {
+        payload: {
 
           firstName: user.firstName,
+
           lastName: user.lastName,
+
           email: user.email,
+
           profileImageUrl: user.profileImageUrl,
+
           role: user.role,
         }
       });
@@ -118,4 +255,3 @@ authRouter.post('/google', async (req, res) => {
     });
   }
 });
-

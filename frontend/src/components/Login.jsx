@@ -1,12 +1,10 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 
 import { useForm } from 'react-hook-form'
 
 import { useNavigate } from 'react-router-dom'
 
 import { useAuth } from '../store/authStore'
-
-import { useEffect } from 'react'
 
 import {
   errorClass,
@@ -41,7 +39,10 @@ function Login() {
     },
   })
 
+  // =========================
   // Zustand Store
+  // =========================
+
   const login = useAuth(state => state.login)
 
   const currentUser = useAuth(state => state.currentUser)
@@ -49,6 +50,16 @@ function Login() {
   const isAuthenticated = useAuth(state => state.isAuthenticated)
 
   const error = useAuth(state => state.error)
+
+  // =========================
+  // Google Role Modal State
+  // =========================
+
+  const [showRoleModal, setShowRoleModal] = useState(false)
+
+  const [googleUserData, setGoogleUserData] = useState(null)
+
+  const [selectedRole, setSelectedRole] = useState('USER')
 
   // =========================
   // Redirect Function
@@ -142,7 +153,76 @@ function Login() {
 
       console.log("GOOGLE RESPONSE:", res.data)
 
-      console.log("ROLE:", res.data.payload?.role)
+      // =====================================
+      // EXISTING USER
+      // =====================================
+
+      if (!res.data.isNewUser) {
+
+        useAuth.setState({
+
+          currentUser: res.data.payload,
+
+          isAuthenticated: true,
+
+          loading: false,
+
+          error: null,
+        })
+
+        toast.success('Google Login Successful!')
+
+        redirectUser(res.data.payload.role)
+
+        return
+      }
+
+      // =====================================
+      // NEW USER
+      // =====================================
+
+      setGoogleUserData(res.data.googleData)
+
+      setShowRoleModal(true)
+
+    } catch (err) {
+
+      console.log(err)
+
+      toast.error(
+
+        err.response?.data?.message ||
+
+        'Google login failed'
+      )
+    }
+  }
+
+  // =========================
+  // Complete Google Registration
+  // =========================
+
+  const completeGoogleRegistration = async () => {
+
+    try {
+
+      const res = await axios.post(
+
+        `${import.meta.env.VITE_API_URL}/auth/google/register`,
+
+        {
+
+          ...googleUserData,
+
+          role: selectedRole,
+        },
+
+        {
+          withCredentials: true,
+        }
+      )
+
+      console.log("REGISTER RESPONSE:", res.data)
 
       // Zustand Update
       useAuth.setState({
@@ -156,9 +236,11 @@ function Login() {
         error: null,
       })
 
-      toast.success('Google Login Successful!')
+      toast.success('Registration Successful!')
 
-      redirectUser(res.data.payload?.role)
+      setShowRoleModal(false)
+
+      redirectUser(res.data.payload.role)
 
     } catch (err) {
 
@@ -168,7 +250,7 @@ function Login() {
 
         err.response?.data?.message ||
 
-        'Google login failed'
+        'Registration failed'
       )
     }
   }
@@ -331,6 +413,74 @@ function Login() {
         </div>
 
       </div>
+
+      {/* ===================================== */}
+      {/* ROLE SELECTION MODAL */}
+      {/* ===================================== */}
+
+      {
+        showRoleModal && (
+
+          <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+
+            <div className="bg-white w-[400px] rounded-2xl p-8">
+
+              <h2 className="text-2xl font-semibold mb-6">
+
+                Select Your Role
+
+              </h2>
+
+              <div className="space-y-4">
+
+                {/* USER */}
+
+                <button
+
+                  onClick={() => setSelectedRole('USER')}
+
+                  className={`w-full border rounded-xl p-4 transition-all duration-200 ${
+                    selectedRole === 'USER'
+                      ? 'bg-black text-white border-black'
+                      : 'border-gray-300'
+                  }`}
+                >
+                  User
+                </button>
+
+                {/* AUTHOR */}
+
+                <button
+
+                  onClick={() => setSelectedRole('AUTHOR')}
+
+                  className={`w-full border rounded-xl p-4 transition-all duration-200 ${
+                    selectedRole === 'AUTHOR'
+                      ? 'bg-black text-white border-black'
+                      : 'border-gray-300'
+                  }`}
+                >
+                  Author
+                </button>
+
+              </div>
+
+              {/* Continue */}
+
+              <button
+
+                onClick={completeGoogleRegistration}
+
+                className="w-full bg-black text-white py-3 rounded-xl mt-6 hover:opacity-90"
+              >
+                Continue
+              </button>
+
+            </div>
+
+          </div>
+        )
+      }
 
     </div>
   )
