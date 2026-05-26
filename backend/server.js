@@ -6,6 +6,7 @@ import cookieParser from "cookie-parser";
 import { adminRoute } from "./APIs/AdminAPI.js";
 import { authorRoute } from "./APIs/AuthorAPI.js";
 import { commonRouter } from "./APIs/commonAPI.js";
+import {authRouter} from './APIs/AuthRoutes.js'
 import cors from 'cors'
 
 config(); //process.env
@@ -25,7 +26,7 @@ app.use("/user-api", userRoute);
 app.use("/author-api", authorRoute);
 app.use("/admin-api", adminRoute);
 app.use('/common-api',commonRouter);
-
+app.use('/auth',authRouter);
 //connect to db
 const connectDB = async () => {
   try {
