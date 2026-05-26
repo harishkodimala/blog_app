@@ -95,7 +95,16 @@ authRouter.post('/google', async (req, res) => {
 
         message: 'Google Login Successful',
 
-        user,
+        payload: {
+            user: {         
+                firstName: user.firstName,
+                lastName: user.lastName,
+                email: user.email,
+                profileImageUrl: user.profileImageUrl,
+                role: user.role,
+            },
+            token,
+        },
       });
 
   } catch (err) {
