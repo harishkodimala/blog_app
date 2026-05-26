@@ -65,6 +65,9 @@ authRouter.post('/google', async (req, res) => {
 
       {
         userId: user._id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        profileImageUrl: user.profileImageUrl,
         email: user.email,
         role: user.role,
       },
