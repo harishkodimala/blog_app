@@ -72,6 +72,7 @@ res.status(200).json({message:"password updated succesfully",payload:userDB})
 commonRouter.get("/check-auth",verifyToken("USER","AUTHOR","ADMIN"),(req,res)=>
 {
   console.log("req.user",req.data)
+  console.log("req.payload from check auth",req.payload)
 
   res.status(200).json({message:"authenticated",payload:req.user})
 })
