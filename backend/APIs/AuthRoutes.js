@@ -4,7 +4,7 @@ import { OAuth2Client } from 'google-auth-library';
 
 import { UserTypeModel } from '../models/userModel.js';
 
-const authRouter = express.Router();
+export const authRouter = express.Router();
 
 const client = new OAuth2Client(
   process.env.GOOGLE_CLIENT_ID
@@ -69,7 +69,7 @@ authRouter.post('/google', async (req, res) => {
         role: user.role,
       },
 
-      process.env.JWT_SECRET,
+      process.env.JWT_SECRETKEY,
 
       {
         expiresIn: '7d',
@@ -109,4 +109,3 @@ authRouter.post('/google', async (req, res) => {
   }
 });
 
-export default authRouter;
