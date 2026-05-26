@@ -17,6 +17,7 @@ import {
 import { toast } from 'react-hot-toast'
 
 import { GoogleLogin } from '@react-oauth/google'
+
 import axios from 'axios'
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -36,11 +37,37 @@ function Login() {
     },
   })
 
+  // =========================
   // Zustand Store
+  // =========================
+
   const login = useAuth(state => state.login)
+
   const currentUser = useAuth(state => state.currentUser)
+
   const isAuthenticated = useAuth(state => state.isAuthenticated)
+
   const error = useAuth(state => state.error)
+
+  // =========================
+  // Redirect Function
+  // =========================
+
+  const redirectUser = (role) => {
+
+    if (role === 'USER') {
+
+      navigate('/userdashboard')
+
+    } else if (role === 'AUTHOR') {
+
+      navigate('/authordashboard')
+
+    } else if (role === 'ADMIN') {
+
+      navigate('/admindashboard')
+    }
+  }
 
   // =========================
   // Normal Login
@@ -60,11 +87,16 @@ function Login() {
 
           toast.success('Login successful!')
 
+          redirectUser(auth.currentUser.role)
+
         } else if (auth.error) {
 
           toast.error(
+
             auth.error.response?.data?.error ||
+
             auth.error.message ||
+
             'Login failed'
           )
         }
@@ -86,52 +118,42 @@ function Login() {
     try {
 
       const res = await axios.post(
+
         `${import.meta.env.VITE_API_URL}/auth/google`,
+
         {
           credential: credentialResponse.credential,
+        },
+
+        {
+          withCredentials: true,
         }
       )
 
       console.log(res.data)
 
-      // Save Token
-      localStorage.setItem('token', res.data.token)
-
-      // Save User
-      localStorage.setItem(
-        'currentUser',
-        JSON.stringify(res.data.payload.user)
-      )
-
-      // Update Zustand State
+      // Zustand Update
       useAuth.setState({
-        currentUser: res.data.payload.user,
+
+        currentUser: res.data.payload,
+
         isAuthenticated: true,
+
         error: null,
       })
 
       toast.success('Google Login Successful!')
 
-      // Redirect based on role
-      if (res?.data?.payload?.user?.role === 'USER' || res?.data?.payload?.user?.role === 'user') {
-
-        navigate('/userdashboard')
-
-      } else if (res?.data?.payload?.user?.role === 'AUTHOR' || res?.data?.payload?.user?.role === 'author') {
-
-        navigate('/authordashboard')
-
-      } else if (res?.data?.payload?.user?.role === 'ADMIN' || res?.data?.payload?.user?.role === 'admin') {
-
-        navigate('/admindashboard')
-      }
+      redirectUser(res.data.payload.role)
 
     } catch (err) {
 
       console.log(err)
 
       toast.error(
+
         err.response?.data?.message ||
+
         'Google login failed'
       )
     }
@@ -143,23 +165,12 @@ function Login() {
 
   useEffect(() => {
 
-    if (isAuthenticated && currentUser && currentUser.role) {
+    if (isAuthenticated && currentUser?.role) {
 
-      if (currentUser.role === 'USER') {
-
-        navigate('/userdashboard')
-
-      } else if (currentUser.role === 'AUTHOR') {
-
-        navigate('/authordashboard')
-
-      } else if (currentUser.role === 'ADMIN') {
-
-        navigate('/admindashboard')
-      }
+      redirectUser(currentUser.role)
     }
 
-  }, [isAuthenticated, currentUser, navigate])
+  }, [isAuthenticated, currentUser])
 
   return (
 
@@ -174,12 +185,16 @@ function Login() {
         {/* Error Message */}
 
         {error && (
+
           <p className={errorClass + ' mb-6'}>
 
             {
               error.response?.data?.error ||
+
               error.response?.data?.message ||
+
               error.message ||
+
               'Login failed'
             }
 
@@ -205,10 +220,15 @@ function Login() {
               className={inputClass}
               type='email'
               placeholder='name@example.com'
+
               {...register('email', {
+
                 required: 'Email required',
+
                 pattern: {
+
                   value: emailRegex,
+
                   message: 'Invalid email format'
                 },
               })}
@@ -217,9 +237,10 @@ function Login() {
             {errors.email?.message && (
 
               <p className={errorClass + ' mt-2 animate-in fade-in'}>
-                {errors.email.message}
-              </p>
 
+                {errors.email.message}
+
+              </p>
             )}
 
           </div>
@@ -236,7 +257,9 @@ function Login() {
               className={inputClass}
               type='password'
               placeholder='Enter password'
+
               {...register('password', {
+
                 required: 'Password required'
               })}
             />
@@ -244,9 +267,10 @@ function Login() {
             {errors.password?.message && (
 
               <p className={errorClass + ' mt-2 animate-in fade-in'}>
-                {errors.password.message}
-              </p>
 
+                {errors.password.message}
+
+              </p>
             )}
 
           </div>
@@ -281,7 +305,9 @@ function Login() {
         <div className="flex justify-center">
 
           <GoogleLogin
+
             onSuccess={handleGoogleSuccess}
+
             onError={() => {
 
               toast.error('Google Login Failed')
