@@ -100,12 +100,12 @@ function Login() {
       // Save User
       localStorage.setItem(
         'currentUser',
-        JSON.stringify(res.data.user)
+        JSON.stringify(res.data.payload.user)
       )
 
       // Update Zustand State
       useAuth.setState({
-        currentUser: res.data.user,
+        currentUser: res.data.payload.user,
         isAuthenticated: true,
         error: null,
       })
@@ -113,15 +113,15 @@ function Login() {
       toast.success('Google Login Successful!')
 
       // Redirect based on role
-      if (res?.data?.user?.role === 'USER' || res?.data?.user?.role === 'user') {
+      if (res?.data?.payload?.user?.role === 'USER' || res?.data?.payload?.user?.role === 'user') {
 
         navigate('/userdashboard')
 
-      } else if (res?.data?.user?.role === 'AUTHOR' || res?.data?.user?.role === 'author') {
+      } else if (res?.data?.payload?.user?.role === 'AUTHOR' || res?.data?.payload?.user?.role === 'author') {
 
         navigate('/authordashboard')
 
-      } else if (res?.data?.user?.role === 'ADMIN' || res?.data?.user?.role === 'admin') {
+      } else if (res?.data?.payload?.user?.role === 'ADMIN' || res?.data?.payload?.user?.role === 'admin') {
 
         navigate('/admindashboard')
       }
