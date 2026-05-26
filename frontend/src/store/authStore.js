@@ -46,6 +46,8 @@ export let useAuth = create((set) => ({
             set({loading: true, error: null})
             const res = await axios.get(`${API_BASE}/common-api/check-auth?t=${Date.now()}`, {withCredentials: true})
 
+            console.log("Response from check auth API", res.data)
+
             set({
                 loading: false,
                 currentUser: res.data.payload,
