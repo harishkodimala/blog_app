@@ -1,17 +1,16 @@
 import express from 'express';
-
 import jwt from 'jsonwebtoken';
-
 import { OAuth2Client } from 'google-auth-library';
 
-import { UserTypeModel } from '../models/userModel.js';
+import { UserTypeModel } from '../models/User.js';
 
-export const authRouter = express.Router();
+const authRouter = express.Router();
 
 const client = new OAuth2Client(
   process.env.GOOGLE_CLIENT_ID
 );
 
+// GOOGLE LOGIN
 authRouter.post('/google', async (req, res) => {
 
   try {
@@ -20,11 +19,13 @@ authRouter.post('/google', async (req, res) => {
 
     // Verify Google Token
     const ticket = await client.verifyIdToken({
+
       idToken: credential,
+
       audience: process.env.GOOGLE_CLIENT_ID,
     });
 
-    // Get user data from Google
+    // Get User Data
     const payload = ticket.getPayload();
 
     const {
@@ -35,10 +36,10 @@ authRouter.post('/google', async (req, res) => {
       picture,
     } = payload;
 
-    // Check if user already exists
+    // Check Existing User
     let user = await UserTypeModel.findOne({ email });
 
-    // Register user if not exists
+    // Create User If Not Exists
     if (!user) {
 
       user = await UserTypeModel.create({
@@ -59,28 +60,43 @@ authRouter.post('/google', async (req, res) => {
       });
     }
 
-    // Generate JWT
+    // JWT Token
     const token = jwt.sign(
+
       {
         userId: user._id,
         email: user.email,
         role: user.role,
       },
+
       process.env.JWT_SECRET,
+
       {
         expiresIn: '7d',
       }
     );
 
-    // Response
-    res.status(200).json({
+    // COOKIE AUTH
+    res
+      .cookie('token', token, {
 
-      message: 'Login Successful',
+        httpOnly: true,
 
-      token,
+        secure: true,
 
-      user,
-    });
+        sameSite: 'None',
+
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+      })
+
+      .status(200)
+
+      .json({
+
+        message: 'Google Login Successful',
+
+        user,
+      });
 
   } catch (err) {
 
@@ -92,3 +108,5 @@ authRouter.post('/google', async (req, res) => {
     });
   }
 });
+
+export default authRouter;
