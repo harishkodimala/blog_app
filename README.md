@@ -6,7 +6,7 @@ A full-stack MERN Blog Application where users can create, manage, and explore a
 
 ## Live Demo
 
-Frontend: https://your-frontend-url.vercel.app  
+Frontend: https://blog-app-alpha-lyart.vercel.app 
 Backend: https://your-backend-url.onrender.com
 
 ---
